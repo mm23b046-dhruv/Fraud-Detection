@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 35px 45px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #444;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            text-align: left;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #4b56d2;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .fraud {
+            background-color: #ffcccc;
+            color: #d32f2f;
+        }
+
+        .legit {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Fraud Detection System</h2>
+        <form action="/predict" method="post">
+            <label for="Amount">Amount:</label>
+            <input type="number" step="any" name="Amount" required>
+
+            <label for="Time">Time:</label>
+            <input type="number" step="any" name="Time" required>
+
+            <label for="Age">Age:</label>
+            <input type="number" name="Age" required>
+
+            <label for="TransactionType">Transaction Type:</label>
+            <select name="TransactionType" required>
+                <option value="">--Select--</option>
+                <option value="Online">Online</option>
+                <option value="Swipe">Swipe</option>
+                <option value="Chip">Chip</option>
+                <option value="Contactless">Contactless</option>
+            </select>
+
+            <label for="Location">Location:</label>
+            <input type="text" name="Location" placeholder="Enter city or place" required>
+
+            <label for="CardType">Card Type:</label>
+            <select name="CardType" required>
+                <option value="">--Select--</option>
+                <option value="Credit">Credit</option>
+                <option value="Debit">Debit</option>
+            </select>
+
+            <label for="MerchantCategory">Merchant Category:</label>
+            <input type="text" name="MerchantCategory" placeholder="e.g., Grocery, Travel" required>
+
+            <button type="submit">Check for Fraud</button>
+        </form>
+
+        {% if prediction_text %}
+        <div class="result {% if 'Fraudulent' in prediction_text %}fraud{% else %}legit{% endif %}">
+            {{ prediction_text }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
